@@ -1,4 +1,4 @@
-package com.example.helloworld.entity;
+package com.example.helloworld.User.entity;
 import com.example.helloworld.common.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
