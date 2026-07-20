@@ -1,4 +1,4 @@
-package com.example.helloworld.common;
+package com.example.helloworld.common.response;
 
 import lombok.Builder;
 import lombok.Data;
