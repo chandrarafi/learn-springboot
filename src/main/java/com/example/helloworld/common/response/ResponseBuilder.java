@@ -1,6 +1,8 @@
-package com.example.helloworld.common;
+package com.example.helloworld.common.response;
 
 import org.springframework.data.domain.Page;
+
+import com.example.helloworld.common.constants.AppConstants;
 
 public class ResponseBuilder {
 
@@ -8,7 +10,7 @@ public class ResponseBuilder {
 
         return ApiResponse.<T>builder()
                 .success(true)
-                .message("Success")
+                .message(AppConstants.SUCCESS)
                 .data(data)
                 .build();
 

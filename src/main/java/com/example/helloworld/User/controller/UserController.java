@@ -4,14 +4,21 @@ import org.springframework.web.bind.annotation.*;
 import com.example.helloworld.User.dto.request.UserRequest;
 import com.example.helloworld.User.dto.response.UserResponse;
 import com.example.helloworld.User.service.interfaces.UserService;
-import com.example.helloworld.common.ApiResponse;
-import com.example.helloworld.common.ResponseBuilder;
+import com.example.helloworld.common.response.ApiResponse;
+import com.example.helloworld.common.response.ResponseBuilder;
 
 import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(
+        name = "User",
+        description = "User Management API"
+)
 @RestController
 @RequestMapping("api/users")
 @RequiredArgsConstructor
@@ -19,6 +26,10 @@ public class UserController {
 
     private final UserService userService;
 
+    @Operation(
+        summary = "Get All Users",
+        description = "Menampilkan seluruh user dengan pagination"
+    )
     @GetMapping
     public ApiResponse<?> findAll(
             @RequestParam(required = false)
@@ -34,6 +45,10 @@ public class UserController {
 
     }
 
+    @Operation(
+        summary = "Get User",
+        description = "Mencari user berdasarkan ID"
+    )
     @GetMapping("/{id}")
     public ApiResponse<UserResponse> findById(
             @PathVariable("id") Long id
@@ -45,6 +60,10 @@ public class UserController {
 
     }
 
+    @Operation(
+        summary = "Create User",
+        description = "Membuat user baru"
+)
     @PostMapping
     public ApiResponse<UserResponse> create(
             @Valid
@@ -58,6 +77,9 @@ public class UserController {
 
     }
 
+    @Operation(
+        summary = "Update User"
+    )
     @PutMapping("/{id}")
     public ApiResponse<UserResponse> update(
             @PathVariable("id") Long id,
@@ -72,13 +94,14 @@ public class UserController {
 
     }
 
+    @Operation(
+        summary = "Delete User"
+    )
     @DeleteMapping("/{id}")
     public ApiResponse<Void> delete(
             @PathVariable("id") Long id
     ) {
-
         userService.delete(id);
-
         return ResponseBuilder.success(
             "User berhasil di hapus"
         );
