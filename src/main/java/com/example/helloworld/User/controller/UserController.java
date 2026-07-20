@@ -1,10 +1,12 @@
-package com.example.helloworld.controller;
+package com.example.helloworld.User.controller;
 import org.springframework.web.bind.annotation.*;
-import com.example.helloworld.dto.response.UserResponse;
-import com.example.helloworld.service.interfaces.UserService;
+
+import com.example.helloworld.User.dto.request.UserRequest;
+import com.example.helloworld.User.dto.response.UserResponse;
+import com.example.helloworld.User.service.interfaces.UserService;
 import com.example.helloworld.common.ApiResponse;
 import com.example.helloworld.common.ResponseBuilder;
-import com.example.helloworld.dto.request.UserRequest;
+
 import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;

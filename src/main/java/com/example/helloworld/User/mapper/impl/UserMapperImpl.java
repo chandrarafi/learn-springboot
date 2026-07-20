@@ -1,9 +1,10 @@
-package com.example.helloworld.mapper.impl;
+package com.example.helloworld.User.mapper.impl;
 
-import com.example.helloworld.dto.request.UserRequest;
-import com.example.helloworld.dto.response.UserResponse;
-import com.example.helloworld.entity.User;
-import com.example.helloworld.mapper.UserMapper;
+import com.example.helloworld.User.dto.request.UserRequest;
+import com.example.helloworld.User.dto.response.UserResponse;
+import com.example.helloworld.User.entity.User;
+import com.example.helloworld.User.mapper.UserMapper;
+
 import org.springframework.stereotype.Component;
 
 @Component

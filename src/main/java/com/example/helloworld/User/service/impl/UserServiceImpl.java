@@ -1,15 +1,16 @@
-package com.example.helloworld.service.impl;
+package com.example.helloworld.User.service.impl;
 
-import com.example.helloworld.entity.User;
-import com.example.helloworld.mapper.UserMapper;
-import com.example.helloworld.repository.UserRepository;
-import com.example.helloworld.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import com.example.helloworld.dto.request.UserRequest;
-import com.example.helloworld.dto.response.UserResponse;
+
+import com.example.helloworld.User.dto.request.UserRequest;
+import com.example.helloworld.User.dto.response.UserResponse;
+import com.example.helloworld.User.entity.User;
+import com.example.helloworld.User.mapper.UserMapper;
+import com.example.helloworld.User.repository.UserRepository;
+import com.example.helloworld.User.service.interfaces.UserService;
 import com.example.helloworld.exception.NotFoundException;
 import com.example.helloworld.exception.DuplicateResourceException;
 

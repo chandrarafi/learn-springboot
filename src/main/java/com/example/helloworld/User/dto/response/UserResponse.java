@@ -1,4 +1,4 @@
-package com.example.helloworld.dto.response;
+package com.example.helloworld.User.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

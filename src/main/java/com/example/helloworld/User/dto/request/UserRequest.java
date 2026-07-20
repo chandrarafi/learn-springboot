@@ -1,4 +1,4 @@
-package com.example.helloworld.dto.request;
+package com.example.helloworld.User.dto.request;
 
 
 import jakarta.validation.constraints.Email;

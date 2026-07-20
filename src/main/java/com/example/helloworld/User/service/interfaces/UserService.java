@@ -1,8 +1,9 @@
-package com.example.helloworld.service.interfaces;
-import com.example.helloworld.dto.request.UserRequest;
-import com.example.helloworld.dto.response.UserResponse;
+package com.example.helloworld.User.service.interfaces;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import com.example.helloworld.User.dto.request.UserRequest;
+import com.example.helloworld.User.dto.response.UserResponse;
 
 public interface UserService 
 {

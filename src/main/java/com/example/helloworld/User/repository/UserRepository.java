@@ -1,10 +1,10 @@
-package com.example.helloworld.repository;
+package com.example.helloworld.User.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.helloworld.entity.User;
+import com.example.helloworld.User.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     
