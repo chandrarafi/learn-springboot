@@ -15,5 +15,6 @@ public class ApiResponse<T> {
 
     private Object errors;
 
+    private Pagination pagination;
 
 }
