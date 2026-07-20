@@ -5,12 +5,13 @@ import com.example.helloworld.mapper.UserMapper;
 import com.example.helloworld.repository.UserRepository;
 import com.example.helloworld.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.example.helloworld.dto.request.UserRequest;
 import com.example.helloworld.dto.response.UserResponse;
 import com.example.helloworld.exception.NotFoundException;
 import com.example.helloworld.exception.DuplicateResourceException;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,11 +22,28 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public List<UserResponse> findAll() {
-        return userRepository.findAll()
-            .stream()
-            .map(userMapper::toResponse)
-            .toList();
+    public Page<UserResponse> findAll(
+            String keyword,
+            Pageable pageable
+    ) {
+
+        Page<User> users;
+
+        if (keyword == null || keyword.isBlank()) {
+
+            users = userRepository.findAll(pageable);
+
+        } else {
+
+            users = userRepository.findByNameContainingIgnoreCase(
+                    keyword,
+                    pageable
+            );
+
+        }
+
+        return users.map(userMapper::toResponse);
+
     }
 
     @Override

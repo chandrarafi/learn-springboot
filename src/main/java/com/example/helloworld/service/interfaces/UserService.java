@@ -1,14 +1,16 @@
 package com.example.helloworld.service.interfaces;
-
-import java.util.List;
-
 import com.example.helloworld.dto.request.UserRequest;
 import com.example.helloworld.dto.response.UserResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserService 
 {
-    List<UserResponse> findAll();
-
+    Page<UserResponse> findAll(
+            String keyword,
+            Pageable pageable
+    );
+    
     UserResponse findById(Long id);
     
     UserResponse create(UserRequest user);

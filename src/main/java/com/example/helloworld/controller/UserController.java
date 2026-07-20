@@ -1,15 +1,14 @@
 package com.example.helloworld.controller;
-
-import java.util.List;
-
 import org.springframework.web.bind.annotation.*;
-
 import com.example.helloworld.dto.response.UserResponse;
 import com.example.helloworld.service.interfaces.UserService;
 import com.example.helloworld.common.ApiResponse;
+import com.example.helloworld.common.ResponseBuilder;
 import com.example.helloworld.dto.request.UserRequest;
 import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 @RestController
 @RequestMapping("api/users")
@@ -19,12 +18,17 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ApiResponse<List<UserResponse>> findAll() {
-    return ApiResponse.<List<UserResponse>>builder()
-            .success(true)
-            .message("Success")
-            .data(userService.findAll())
-            .build();
+    public ApiResponse<?> findAll(
+            @RequestParam(required = false)
+            String keyword,
+
+            @PageableDefault(size = 10)
+            Pageable pageable
+    ) {
+
+        return ResponseBuilder.page(
+                userService.findAll(keyword, pageable)
+        );
 
     }
 
@@ -33,11 +37,9 @@ public class UserController {
             @PathVariable("id") Long id
     ) {
 
-        return ApiResponse.<UserResponse>builder()
-                .success(true)
-                .message("Success")
-                .data(userService.findById(id))
-                .build();
+        return ResponseBuilder.success(
+            userService.findById(id)
+        );
 
     }
 
@@ -47,11 +49,10 @@ public class UserController {
             @RequestBody UserRequest request
     ) {
 
-        return ApiResponse.<UserResponse>builder()
-                .success(true)
-                .message("User berhasil dibuat")
-                .data(userService.create(request))
-                .build();
+        return ResponseBuilder.success(
+            "User berhasil dibuat",
+            userService.create(request)
+        );
 
     }
 
@@ -62,11 +63,10 @@ public class UserController {
             @RequestBody UserRequest request
     ) {
 
-        return ApiResponse.<UserResponse>builder()
-                .success(true)
-                .message("User berhasil diupdate")
-                .data(userService.update(id, request))
-                .build();
+        return ResponseBuilder.success(
+                "User berhasil diupdate",
+                userService.update(id, request)
+        );
 
     }
 
@@ -77,10 +77,8 @@ public class UserController {
 
         userService.delete(id);
 
-        return ApiResponse.<Void>builder()
-                .success(true)
-                .message("User berhasil dihapus")
-                .build();
-
+        return ResponseBuilder.success(
+            "User berhasil di hapus"
+        );
     }
 }
