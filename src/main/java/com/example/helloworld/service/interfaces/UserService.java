@@ -2,17 +2,18 @@ package com.example.helloworld.service.interfaces;
 
 import java.util.List;
 
-import com.example.helloworld.entity.User;
+import com.example.helloworld.dto.request.UserRequest;
+import com.example.helloworld.dto.response.UserResponse;
 
 public interface UserService 
 {
-    List<User> findAll();
+    List<UserResponse> findAll();
 
-    User findById(Long id);
+    UserResponse findById(Long id);
     
-    User create(User user);
+    UserResponse create(UserRequest user);
     
-    User update(Long id, User user);
+    UserResponse update(Long id, UserRequest user);
     
     void delete(Long id);
 }
