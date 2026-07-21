@@ -13,7 +13,9 @@ import com.example.helloworld.User.repository.UserRepository;
 import com.example.helloworld.User.service.interfaces.UserService;
 import com.example.helloworld.exception.NotFoundException;
 import com.example.helloworld.exception.DuplicateResourceException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 
@@ -27,22 +29,16 @@ public class UserServiceImpl implements UserService {
             String keyword,
             Pageable pageable
     ) {
-
         Page<User> users;
-
         if (keyword == null || keyword.isBlank()) {
-
             users = userRepository.findAll(pageable);
-
         } else {
-
             users = userRepository.findByNameContainingIgnoreCase(
                     keyword,
                     pageable
             );
-
         }
-
+        log.info("Searching users keyword={}", keyword);
         return users.map(userMapper::toResponse);
 
     }
@@ -53,7 +49,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
             .orElseThrow(() ->
                     new NotFoundException("User tidak ditemukan"));
-
+        log.info("Searching users keyword={}", id);
         return userMapper.toResponse(user);
 
     }
@@ -64,8 +60,11 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new DuplicateResourceException("Email sudah digunakan");
         }
+        
+        log.info("Creating user with email: {}", request.getEmail());
         User user = userMapper.toEntity(request);
         user = userRepository.save(user);
+        log.info("User created successfully with id: {}", user.getId());
         return userMapper.toResponse(user);
     }
 
@@ -78,9 +77,8 @@ public class UserServiceImpl implements UserService {
 
         user.setName(request.getName());
         user.setEmail(request.getEmail());
-
         user = userRepository.save(user);
-
+        log.info("Updating user with id {}", id);
         return UserResponse.builder()
                 .id(user.getId())
                 .name(user.getName())
@@ -93,8 +91,8 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
 
         UserResponse user = findById(id);
-
         userRepository.deleteById(user.getId());
+        log.info("Deleting user with id {}", id);
 
     }
 
