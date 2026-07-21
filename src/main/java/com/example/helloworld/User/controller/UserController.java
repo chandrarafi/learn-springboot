@@ -32,11 +32,12 @@ public class UserController {
     )
     @GetMapping
     public ApiResponse<?> findAll(
-            @RequestParam(required = false)
-            String keyword,
+        @RequestParam(
+        required = false, name = "keyword" )
+        String keyword,
 
-            @PageableDefault(size = 10)
-            Pageable pageable
+        @PageableDefault(size = 10)
+        Pageable pageable
     ) {
 
         return ResponseBuilder.page(
