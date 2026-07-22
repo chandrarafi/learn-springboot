@@ -24,4 +24,7 @@ public class UserRequest {
     @Email(message = "Format email tidak valid")
     @Size(max = 150, message = "Email maksimal 150 karakter")
     private String email;
+
+    @Size(min = 6, message = "Password minimal 6 karakter")
+    private String password;
 }
