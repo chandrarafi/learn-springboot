@@ -26,5 +26,13 @@ public class User extends BaseEntity {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean enabled = true;
+
+    @Column(name = "account_non_locked", nullable = false)
+    @Builder.Default
+    private Boolean accountNonLocked = true;
     
 }

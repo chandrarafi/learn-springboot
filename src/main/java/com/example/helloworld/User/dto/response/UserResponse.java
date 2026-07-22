@@ -13,5 +13,9 @@ public class UserResponse {
 
     private String email;
 
+    private Boolean enabled;
+
+    private Boolean accountNonLocked;
+
 
 }

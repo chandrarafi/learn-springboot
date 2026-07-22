@@ -16,6 +16,8 @@ public class UserMapperImpl implements UserMapper {
         return User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
+                .enabled(true)
+                .accountNonLocked(true)
                 .build();
 
     }
@@ -27,6 +29,8 @@ public class UserMapperImpl implements UserMapper {
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
+                .enabled(user.getEnabled())
+                .accountNonLocked(user.getAccountNonLocked())
                 .build();
 
     }
