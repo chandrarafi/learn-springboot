@@ -3,6 +3,7 @@ package com.example.helloworld.User.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.helloworld.User.dto.request.UserRequest;
@@ -24,6 +25,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public Page<UserResponse> findAll(
@@ -64,6 +67,8 @@ public class UserServiceImpl implements UserService {
         
         log.info("Creating user with email: {}", request.getEmail());
         User user = userMapper.toEntity(request);
+        user.setPassword(
+        passwordEncoder.encode(request.getPassword()));
         user = userRepository.save(user);
         log.info("User created successfully with id: {}", user.getId());
         return userMapper.toResponse(user);
@@ -78,6 +83,13 @@ public class UserServiceImpl implements UserService {
 
         user.setName(request.getName());
         user.setEmail(request.getEmail());
+        if (request.getPassword() != null &&
+            !request.getPassword().isBlank()) {
+
+            user.setPassword(
+                passwordEncoder.encode(request.getPassword())
+            );
+        }
         user = userRepository.save(user);
         log.info("Updating user with id {}", id);
         return UserResponse.builder()
