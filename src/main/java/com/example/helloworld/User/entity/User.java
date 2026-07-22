@@ -3,8 +3,11 @@ import com.example.helloworld.common.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import org.hibernate.annotations.SoftDelete;
+
 @Entity
 @Table(name = "users")
+@SoftDelete
 @Getter
 @Setter
 @Builder

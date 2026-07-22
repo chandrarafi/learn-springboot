@@ -13,6 +13,7 @@ import com.example.helloworld.User.repository.UserRepository;
 import com.example.helloworld.User.service.interfaces.UserService;
 import com.example.helloworld.exception.NotFoundException;
 import com.example.helloworld.exception.DuplicateResourceException;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -93,6 +94,30 @@ public class UserServiceImpl implements UserService {
         UserResponse user = findById(id);
         userRepository.deleteById(user.getId());
         log.info("Deleting user with id {}", id);
+
+    }
+
+    @Override
+    @Transactional
+    public void restore(Long id) {
+
+        userRepository.findIncludingDeleted(id)
+                .orElseThrow(() -> new NotFoundException("User tidak ditemukan"));
+
+        userRepository.restoreById(id);
+        log.info("Restoring user with id {}", id);
+
+    }
+
+    @Override
+    @Transactional
+    public void permanentDelete(Long id) {
+
+        userRepository.findIncludingDeleted(id)
+                .orElseThrow(() -> new NotFoundException("User tidak ditemukan"));
+
+        userRepository.permanentDeleteById(id);
+        log.info("Permanently deleting user with id {}", id);
 
     }
 

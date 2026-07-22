@@ -96,7 +96,8 @@ public class UserController {
     }
 
     @Operation(
-        summary = "Delete User"
+        summary = "Delete User",
+        description = "Soft delete user berdasarkan ID"
     )
     @DeleteMapping("/{id}")
     public ApiResponse<Void> delete(
@@ -105,6 +106,34 @@ public class UserController {
         userService.delete(id);
         return ResponseBuilder.success(
             "User berhasil di hapus"
+        );
+    }
+
+    @Operation(
+        summary = "Restore User",
+        description = "Memulihkan user yang sudah di soft delete"
+    )
+    @PatchMapping("/{id}/restore")
+    public ApiResponse<Void> restore(
+            @PathVariable("id") Long id
+    ) {
+        userService.restore(id);
+        return ResponseBuilder.success(
+            "User berhasil dipulihkan"
+        );
+    }
+
+    @Operation(
+        summary = "Permanent Delete User",
+        description = "Menghapus user secara permanen dari database"
+    )
+    @DeleteMapping("/{id}/permanent")
+    public ApiResponse<Void> permanentDelete(
+            @PathVariable("id") Long id
+    ) {
+        userService.permanentDelete(id);
+        return ResponseBuilder.success(
+            "User berhasil dihapus secara permanen"
         );
     }
 }
