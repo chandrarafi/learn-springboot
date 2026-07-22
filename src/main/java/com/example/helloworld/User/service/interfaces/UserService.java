@@ -19,4 +19,8 @@ public interface UserService
     UserResponse update(Long id, UserRequest user);
     
     void delete(Long id);
+
+    void restore(Long id);
+
+    void permanentDelete(Long id);
 }
