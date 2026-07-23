@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 @Builder
-@JsonPropertyOrder({ "id", "name", "email", "accessToken", "tokenType" })
+@JsonPropertyOrder({ "id", "name", "email", "roles", "accessToken", "refreshToken", "tokenType" })
 public class LoginResponse {
 
     private Long id;
@@ -15,7 +17,11 @@ public class LoginResponse {
 
     private String email;
 
+    private List<String> roles;
+
     private String accessToken;
+
+    private String refreshToken;
 
     private String tokenType;
 

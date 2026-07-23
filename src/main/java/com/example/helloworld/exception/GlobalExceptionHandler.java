@@ -2,6 +2,7 @@ package com.example.helloworld.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -73,6 +74,17 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleAccessDenied(AccessDeniedException ex) {
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(ApiResponse.<Void>builder()
+                        .success(false)
+                        .message("Akses ditolak: Anda tidak memiliki hak akses untuk resource ini")
+                        .build());
+
+    }
+
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ApiResponse<Void>> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
 
@@ -107,6 +119,17 @@ public class GlobalExceptionHandler {
                         .success(false)
                         .message("Validation Failed")
                         .errors(errors)
+                        .build());
+
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<Void>> handleGeneralException(Exception ex) {
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ApiResponse.<Void>builder()
+                        .success(false)
+                        .message("Terjadi kesalahan internal pada server")
                         .build());
 
     }

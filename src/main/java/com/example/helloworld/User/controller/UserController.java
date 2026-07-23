@@ -1,4 +1,5 @@
 package com.example.helloworld.User.controller;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.helloworld.User.dto.request.UserRequest;
@@ -31,6 +32,7 @@ public class UserController {
         description = "Menampilkan seluruh user dengan pagination"
     )
     @GetMapping
+    @PreAuthorize("hasAuthority('user:read') or hasRole('ADMIN')")
     public ApiResponse<?> findAll(
         @RequestParam(
         required = false, name = "keyword" )
@@ -51,6 +53,7 @@ public class UserController {
         description = "Mencari user berdasarkan ID"
     )
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('user:read') or hasRole('ADMIN')")
     public ApiResponse<UserResponse> findById(
             @PathVariable("id") Long id
     ) {
@@ -64,8 +67,9 @@ public class UserController {
     @Operation(
         summary = "Create User",
         description = "Membuat user baru"
-)
+    )
     @PostMapping
+    @PreAuthorize("hasAuthority('user:write') or hasRole('ADMIN')")
     public ApiResponse<UserResponse> create(
             @Valid
             @RequestBody UserRequest request
@@ -82,6 +86,7 @@ public class UserController {
         summary = "Update User"
     )
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('user:write') or hasRole('ADMIN')")
     public ApiResponse<UserResponse> update(
             @PathVariable("id") Long id,
             @Valid
@@ -100,6 +105,7 @@ public class UserController {
         description = "Soft delete user berdasarkan ID"
     )
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('user:delete') or hasRole('ADMIN')")
     public ApiResponse<Void> delete(
             @PathVariable("id") Long id
     ) {
@@ -114,6 +120,7 @@ public class UserController {
         description = "Memulihkan user yang sudah di soft delete"
     )
     @PatchMapping("/{id}/restore")
+    @PreAuthorize("hasAuthority('user:delete') or hasRole('ADMIN')")
     public ApiResponse<Void> restore(
             @PathVariable("id") Long id
     ) {
@@ -128,6 +135,7 @@ public class UserController {
         description = "Menghapus user secara permanen dari database"
     )
     @DeleteMapping("/{id}/permanent")
+    @PreAuthorize("hasAuthority('user:delete') or hasRole('ADMIN')")
     public ApiResponse<Void> permanentDelete(
             @PathVariable("id") Long id
     ) {
