@@ -15,11 +15,13 @@ import com.example.helloworld.auth.jwt.JwtAuthenticationFilter;
 import com.example.helloworld.auth.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;

@@ -1,12 +1,16 @@
 package com.example.helloworld.auth.security;
 
 import com.example.helloworld.User.entity.User;
+import com.example.helloworld.auth.entity.Permission;
+import com.example.helloworld.auth.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
@@ -15,7 +19,20 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        Set<GrantedAuthority> authorities = new HashSet<>();
+
+        if (user.getRoles() != null) {
+            for (Role role : user.getRoles()) {
+                authorities.add(new SimpleGrantedAuthority(role.getName()));
+                if (role.getPermissions() != null) {
+                    for (Permission permission : role.getPermissions()) {
+                        authorities.add(new SimpleGrantedAuthority(permission.getName()));
+                    }
+                }
+            }
+        }
+
+        return authorities;
     }
 
     @Override
