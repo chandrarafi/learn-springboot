@@ -10,8 +10,13 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.example.helloworld.auth.jwt.JwtAuthenticationFilter;
 import com.example.helloworld.auth.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @Configuration
@@ -19,6 +24,7 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -44,15 +50,30 @@ public class SecurityConfig {
             throws Exception {
 
         http
+            .cors(Customizer.withDefaults())
+
             .csrf(csrf -> csrf.disable())
 
+            .sessionManagement(session ->
+                    session.sessionCreationPolicy(
+                            SessionCreationPolicy.STATELESS))
+
+
             .authenticationProvider(authenticationProvider())
+
+            .addFilterBefore(
+                    jwtAuthenticationFilter,
+                    UsernamePasswordAuthenticationFilter.class
+            )
+
 
             .authorizeHttpRequests(auth -> auth
 
                     .requestMatchers(
-                            "/api/auth/login",
+                            "/api/auth/**",
+                            "/error",
                             "/swagger-ui/**",
+                            "/swagger-ui.html",
                             "/v3/api-docs/**"
                     )
 
@@ -61,9 +82,7 @@ public class SecurityConfig {
                     .anyRequest()
 
                     .authenticated()
-            )
-
-            .httpBasic(Customizer.withDefaults());
+            );
 
         return http.build();
 

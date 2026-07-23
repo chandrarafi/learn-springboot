@@ -11,18 +11,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository repository;
+        private final UserRepository repository;
 
-    @Override
-    public UserDetails loadUserByUsername(String email)
-            throws UsernameNotFoundException {
+        @Override
+        public UserDetails loadUserByUsername(String email)
+                throws UsernameNotFoundException {
 
-        User user = repository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException(
-                                "Email tidak ditemukan"
-                        ));
+                User user = repository.findByEmail(email)
+                        .orElseThrow(() ->
+                                new UsernameNotFoundException(
+                                        "Email tidak ditemukan"
+                                ));
 
-        return new CustomUserDetails(user);
-    }
+                return new CustomUserDetails(user);
+        }
+
 }
